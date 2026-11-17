@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tablet test">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Tablet test</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; font: 18px/1.45 -apple-system, "Helvetica Neue", Arial, sans-serif;
+         background: #1e2338; color: #f5ebd8; -webkit-text-size-adjust: 100%; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 21px; margin: 0 0 6px; color: #ffe6a8; }
+  section { background: #2a3050; border-radius: 12px; padding: 16px; margin: 16px 0; }
+  p { margin: 6px 0; }
+  .how { color: #c9c3b4; font-size: 16px; }
+  button { font: inherit; min-height: 62px; min-width: 62px; padding: 10px 18px; margin: 6px 6px 6px 0;
+           border: 0; border-radius: 10px; background: #f6b24a; color: #1e2338; font-weight: 600; }
+  button.alt { background: #3e8e8c; color: #fff; }
+  button:disabled { opacity: .45; }
+  .res { background: #1e2338; border-radius: 8px; padding: 10px 12px; margin: 8px 0; white-space: pre-wrap;
+         font: 15px/1.4 Menlo, Consolas, monospace; word-break: break-word; }
+  .ok { border-left: 6px solid #6e9b5b; } .bad { border-left: 6px solid #ee7b5f; } .wait { border-left: 6px solid #f6b24a; }
+  #flash { width: 100%; height: 110px; border-radius: 10px; background: #12414a; margin: 8px 0; }
+  #flash.on { background: #fff; }
+  #field { position: relative; width: 100%; padding-top: 50%; border-radius: 10px; overflow: hidden;
+           background: #12414a url(bg.png) center / cover; touch-action: none; -webkit-user-select: none; user-select: none; }
+  .tile { position: absolute; left: 0; top: 0; width: 76px; height: 76px; border-radius: 12px; background: #f5ebd8;
+          color: #1e2338; font: 700 34px/76px Arial, sans-serif; text-align: center; will-change: transform;
+          box-shadow: 0 3px 8px rgba(0,0,0,.4); }
+  canvas { width: 240px; height: 160px; border-radius: 8px; background: #000; display: block; }
+  textarea { width: 100%; height: 220px; font: 13px Menlo, Consolas, monospace; border-radius: 8px; padding: 8px; }
+</style>
+</head>
+<body>
+<h1>Tablet compatibility test</h1>
+<p class="how">A measuring page, not the game. It uses plain shapes and tones only. Work down the page; each result is saved on this tablet and collected in the box at the bottom.</p>
+
+<section>
+  <h2>1. This tablet</h2>
+  <div id="r-report" class="res wait">Checking…</div>
+</section>
+
+<section>
+  <h2>2. Home screen</h2>
+  <p class="how">In Safari tap Share, then Add to Home Screen. Close Safari and open "Tablet test" from the home screen. Do the rest of the tests from there.</p>
+  <div id="r-install" class="res wait">Checking…</div>
+</section>
+
+<section>
+  <h2>3. Does saved data survive?</h2>
+  <p class="how">Nothing to tap. Come back after restarting the iPad, and again after a week, and read this box.</p>
+  <div id="r-survive" class="res wait">Checking…</div>
+</section>
+
+<section>
+  <h2>4. Sound timing</h2>
+  <p class="how">Tap the button several times. The bar flashes and a click plays. Listen the way she will listen (speaker or headphones), then choose what you noticed.</p>
+  <div id="flash"></div>
+  <button id="b-tap">Tap for flash and click</button>
+  <div>
+    <button class="alt" data-judge="latency" data-v="together">Together</button>
+    <button class="alt" data-judge="latency" data-v="slight delay">Slight delay</button>
+    <button class="alt" data-judge="latency" data-v="clear delay">Clear delay</button>
+  </div>
+  <div id="r-latency" class="res wait">Not judged yet.</div>
+</section>
+
+<section>
+  <h2>5. Sound over music</h2>
+  <p class="how">Start the music, then play the sound a few times over it.</p>
+  <button id="b-music">Start music</button>
+  <button id="b-blip">Play sound</button>
+  <div>
+    <button class="alt" data-judge="overlap" data-v="clean">Clean</button>
+    <button class="alt" data-judge="overlap" data-v="crackle or drop-out">Crackle or drop-out</button>
+    <button class="alt" data-judge="overlap" data-v="music stopped">Music stopped</button>
+  </div>
+  <div id="r-overlap" class="res wait">Not judged yet.</div>
+</section>
+
+<section>
+  <h2>6. Dragging</h2>
+  <p class="how">Tap Measure and wait five seconds. Then drag a few tiles yourself and say how it felt.</p>
+  <div id="field"></div>
+  <button id="b-drag">Measure</button>
+  <button class="alt" data-judge="dragfeel" data-v="smooth">Felt smooth</button>
+  <button class="alt" data-judge="dragfeel" data-v="a little jerky">A little jerky</button>
+  <button class="alt" data-judge="dragfeel" data-v="laggy">Laggy</button>
+  <div id="r-drag" class="res wait">Not measured yet.</div>
+</section>
+
+<section>
+  <h2>7. A whole session offline</h2>
+  <p class="how">Step A, on Wi-Fi: download the stand-in pack (about 50 MB). Step B: turn on Airplane Mode, close this app completely, open it again, and tap Play the session. Repeat step B after restarting the iPad, and again after a week.</p>
+  <button id="b-pack">A. Download and check the pack</button>
+  <button id="b-play">B. Play the session</button>
+  <button class="alt" id="b-clear">Remove the pack</button>
+  <canvas id="stage" width="240" height="160"></canvas>
+  <div id="r-pack" class="res wait">Checking…</div>
+  <div id="r-play" class="res wait">No session played yet.</div>
+</section>
+
+<section>
+  <h2>8. Room for more</h2>
+  <p class="how">With the pack still stored, this writes a further 150 MB, reads it back, then removes it. It takes a minute or two.</p>
+  <button id="b-fill">Run the storage test</button>
+  <div id="r-fill" class="res wait">Not run yet.</div>
+</section>
+
+<section>
+  <h2>9. Saving between tablets</h2>
+  <div class="res wait">Not in this version. It needs the home server, which is set up later.</div>
+</section>
+
+<section>
+  <h2>Results</h2>
+  <p class="how">Tap Copy and send the text back, or photograph the boxes above.</p>
+  <button id="b-copy">Copy results</button>
+  <textarea id="out" readonly></textarea>
+</section>
+<script src="app.js"></script>
+</body>
+</html>
